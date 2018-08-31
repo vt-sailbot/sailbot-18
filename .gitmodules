@@ -1,0 +1,6 @@
+[submodule "wifi-reset"]
+	path = wifi-reset
+	url = https://github.com/adafruit/wifi-reset.git
+[submodule "opencv"]
+	path = opencv
+	url = https://github.com/opencv/opencv.git
