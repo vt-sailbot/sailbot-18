@@ -20,8 +20,7 @@ import threading
 import time
 from random import random
 
-"""
-Sets up and manages the Airmar sensor, starts and updates the captain and helmsman, manages waypoint detection.
+""" Sets up and manages the Airmar sensor, starts and updates the captain and helmsman, manages waypoint detection.
 """
 
 #delays in seconds
@@ -38,12 +37,12 @@ start_time = time.time()
 
 debug_mode = False
 
-"""
-Prints out debug info.
 
-There has to be a cleaner way to do this.
-"""
 def debug():
+	""" Prints out debug info.
+
+	There has to be a cleaner way to do this.
+	"""
 	timeRunning = time.time() - start_time
 	# ship_data.wind_heading = 40
 	#
@@ -84,17 +83,16 @@ def debug():
 		print("\n\n")
 
 
-"""
-Reads and updates the Airmar and RC controller.
 
-Why is this a class? This should also be somewhere else.
-"""
 class SensorThread(StoppableThread):
+	""" Reads and updates the Airmar and RC controller.
 
+	Why is this a class? This should also be somewhere else.
 	"""
-	Sets up and continually updates the Airmar and Arduino.
-	"""
+
     def run(self):
+		""" Sets up and continually updates the Airmar and Arduino.
+		"""
 		sensor_communicator.setup(helmsman)
 
         sensorThreadRunI = 0
@@ -124,30 +122,30 @@ class SensorThread(StoppableThread):
 				traceback.print_exc()
 				break
 
-"""
-Runs if waypoint is hit
-"""
+
 def check_waypoint_proximity():
+	""" Runs if waypoint is hit
+	"""
     if(within_radius_of_target()):
         ship_data.targetI += 1
 		ship_data.targetI %= len(ship_data.target_points)
         print("******************************** HIT WAYPOINT " + str(ship_data.targetI) +  " ************************************")
 
-"""
-Checks to see if waypoint is hit.
 
-This and check_waypoint_proximity should be merged, and should be with other navigation code.
-"""
 def within_radius_of_target():
+	""" Checks to see if waypoint is hit.
+
+	This and check_waypoint_proximity should be merged, and should be with other navigation code.
+	"""
     current_point = [ship_data.boat_lat, ship_data.boat_lon]
     target_point = ship_data.target_points[ship_data.targetI]
     current_proximity = (calc.distance(current_point, target_point))
     return calc.within_radius_of_target(current_point, target_point)
 
-"""
-Starts all the captain, helmsman, and sensor services.
-"""
+
 def start_SailBot():
+	""" Starts all the captain, helmsman, and sensor services.
+	"""
 	global captain, helmsman, sensor_thread
 
 	# Create captain instance
@@ -182,10 +180,10 @@ def start_SailBot():
 print("STARTING SAILBOT")
 start_SailBot()
 
-"""
-Updates captain and helmsman services until interrupt is caught.
-"""
+
 try:
+	""" Updates captain and helmsman services until interrupt is caught.
+	"""
 	while(True):
 		try:
 	        if (debug_mode):
