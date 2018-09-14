@@ -56,17 +56,17 @@ def debug():
 
 		print("current distance to target: " + str(current_proximity))
 
-	        print("\ncDH: " + str(captain.current_desired_heading) + '; now facing ' + str(ship_data.boat_heading))
-	        print("wind: " + str(ship_data.wind_heading))
+		print("\ncDH: " + str(captain.current_desired_heading) + '; now facing ' + str(ship_data.boat_heading))
+		print("wind: " + str(ship_data.wind_heading))
 
-	        relative_wind_angle = ship_data.relative_wind_heading
-	        if(relative_wind_angle > 180):
-      		        relative_wind_angle = 360 - relative_wind_angle
+		relative_wind_angle = ship_data.relative_wind_heading
+		if(relative_wind_angle > 180):
+					relative_wind_angle = 360 - relative_wind_angle
 
 		print("relative wind: " + str(relative_wind_angle))
-	        print(ship_data.boat_lat, ship_data.boat_lon)
-	        print(ship_data.direction_to_target)
-	        print(ship_data.rudder_servo_angle)
+		print(ship_data.boat_lat, ship_data.boat_lon)
+		print(ship_data.direction_to_target)
+		print(ship_data.rudder_servo_angle)
 		print("auto: " + str(ship_data.auto))
 
 		ship_data_names = [item for item in dir(ship_data) if not item.startswith("__")]
@@ -95,35 +95,35 @@ class SensorThread(StoppableThread):
 	- Prints to stdout
 	"""
 
-    def run(self):
+	def run(self):
 		""" Sets up and continually updates the Airmar and Arduino.
 		"""
 		sensor_communicator.setup(helmsman)
 
-        sensorThreadRunI = 0
+		sensorThreadRunI = 0
 
-        while (True):
-	    	sensorThreadRunI += 1
+		while (True):
+			sensorThreadRunI += 1
 			time.sleep(sensor_thread_delay)
-	    	try:
-	            if self.stopped():
+			try:
+				if self.stopped():
 					print("SensorThread stopped")
 					track_logger.add_line("STOPPED", "errors")
-	                break
+					break
 
 				# ARDUINO COMMUNICATION TURNED ON
-			    sensor_communicator.signal_arduino()
+				sensor_communicator.signal_arduino()
 
-			    sensor_communicator.check_airmar()
-			    ship_data.wind_heading = sensorThreadRunI / 3
+				sensor_communicator.check_airmar()
+				ship_data.wind_heading = sensorThreadRunI / 3
 
-			    if (sensorThreadRunI % 10 == 0):
-				    data_sender.send_update()
+				if (sensorThreadRunI % 10 == 0):
+					data_sender.send_update()
 
-		    except Exception, e:
+			except Exception, e:
 				eStr = "in Sensor Thread: " + str(e)
 				track_logger.add_line(eStr, "errors")
-		        print(eStr)
+				print(eStr)
 				traceback.print_exc()
 				break
 
@@ -135,10 +135,10 @@ def check_waypoint_proximity():
 	- Prints to stdout
 	- Increments targetI in ship_data
 	"""
-    if(within_radius_of_target()):
-        ship_data.targetI += 1
+	if(within_radius_of_target()):
+		ship_data.targetI += 1
 		ship_data.targetI %= len(ship_data.target_points)
-        print("******************************** HIT WAYPOINT " + str(ship_data.targetI) +  " ************************************")
+		print("******************************** HIT WAYPOINT " + str(ship_data.targetI) +  " ************************************")
 
 
 def within_radius_of_target():
@@ -149,10 +149,10 @@ def within_radius_of_target():
 	Returns:
 	True if the ship is within the specified radius of the target, False otherwise
 	"""
-    current_point = [ship_data.boat_lat, ship_data.boat_lon]
-    target_point = ship_data.target_points[ship_data.targetI]
-    current_proximity = (calc.distance(current_point, target_point))
-    return calc.within_radius_of_target(current_point, target_point)
+	current_point = [ship_data.boat_lat, ship_data.boat_lon]
+	target_point = ship_data.target_points[ship_data.targetI]
+	current_proximity = (calc.distance(current_point, target_point))
+	return calc.within_radius_of_target(current_point, target_point)
 
 
 def start_SailBot():
@@ -205,7 +205,7 @@ if __name__ == "__main__":
 	try:
 		while(True):
 			try:
-		        if (debug_mode):
+				if (debug_mode):
 					debug()
 
 				# check if the current waypoint is hit
@@ -214,7 +214,7 @@ if __name__ == "__main__":
 				if(ship_data.auto):
 					captain.think()
 
-		        	helmsman.steer_boat()
+					helmsman.steer_boat()
 
 				if (debug_mode):
 					track_logger.log()
@@ -228,6 +228,6 @@ if __name__ == "__main__":
 				traceback.print_exc()
 
 	except (KeyboardInterrupt), e:
-	    print(str(e))
-	    print("^C CAUGHT - MAIN LOOP ENDING")
-	    sensor_thread.stop()
+		print(str(e))
+		print("^C CAUGHT - MAIN LOOP ENDING")
+		sensor_thread.stop()
