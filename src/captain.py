@@ -9,7 +9,14 @@ class Captain:
     """ Handles high-level navigation.
     """
     def __init__(self):
+        """ Initializes current navigation variables.
 
+        Keyword arguments:
+        self -- The caller, the new Captain instance
+
+        Side effects:
+        - Initializes instance variables
+        """
         self.current_desired_heading = 0
 
         #self.current_target = None
@@ -24,10 +31,16 @@ class Captain:
 
         self.old_time = time.time()
 
-	self.current_fastest_midpoint = [1, 2];
+        self.current_fastest_midpoint = [1, 2];
 
     def setup(self):
         """ Sets up starting conditions for navigation.
+
+        Keyword arguments:
+        self -- The caller, the instance
+
+        Side effects:
+        - Sets target and time instance variables
         """
         self.old_time = time.time()
         self.current_target = (ship_data.target_points[ship_data.targetI])
@@ -36,6 +49,12 @@ class Captain:
         """ Finds a route to the next waypoint.
 
         The route is optimal given constant wind conditions.
+
+        Keyword arguments:
+        self -- The caller, the instance
+
+        Side effects:
+        - Sets instance variables
         """
         a_s = ship_data.boat_heading
         lon_s = ship_data.boat_lon
@@ -52,6 +71,12 @@ class Captain:
             """ Gets the time estimate to the waypoint.
 
             Wraps the total_time function.
+
+            Keyword arguments:
+            x -- A latitude, longitude position
+
+            Returns:
+            A time estimate of time to the next waypoint
             """
             lat = x[0]
             lon = x[1]
@@ -87,6 +112,8 @@ class Captain:
 #	print(self.current_fastest_midpoint)
 
 if(__name__ == '__main__'):
+    """ For testing purposes.
+    """
 	c = Captain()
 	for i in range(10):
 		c.think()
