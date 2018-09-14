@@ -27,6 +27,7 @@ def imshow_split(img1, img2, title="Split Image", height=False):
 
 def morph_open(mask, d_iters=2, e_iters=2, kernel_size=7):
     """ Applies a morphological opening to a mask.
+
     Through eroding and then dilating an image, the smaller noise is removed and
     the larger blobs maintain their size. A standard opening has an equal number
     of dilations as erosions.
@@ -61,6 +62,7 @@ def morph_open(mask, d_iters=2, e_iters=2, kernel_size=7):
 
 def find_buoy(img, draw_result=False, window_title="Buoy", circ_thresh=0.83):
     """ Computes the center and width of the buoy in an image.
+
     The method applies a hsv mask of shades of red to the image, then computes
     the largest contour in that mask which the algorithm assumes to be the buoy.
     The algorithm then computes the center of the contour and the width of its
@@ -171,6 +173,7 @@ def thresh_detect(img):
 
 def buoy_distance(pixel_width, focal_length, ACTUAL_WIDTH=0.4):
     """ Calculates the distance of the buoy from the boat.
+    
     The algorithm uses the similar triangles in the following equation:
     (focal_len / pixel_width) = (actual_distance / actual_width)
 

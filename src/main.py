@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import os
 import traceback
 from captain import Captain
@@ -41,7 +42,8 @@ debug_mode = False
 def debug():
 	""" Prints out debug info.
 
-	There has to be a cleaner way to do this.
+	Side effects:
+	- Prints to stdout
 	"""
 	timeRunning = time.time() - start_time
 	# ship_data.wind_heading = 40
@@ -87,7 +89,10 @@ def debug():
 class SensorThread(StoppableThread):
 	""" Reads and updates the Airmar and RC controller.
 
-	Why is this a class? This should also be somewhere else.
+	This should be somewhere else.
+
+	Side effects:
+	- Prints to stdout
 	"""
 
     def run(self):
@@ -106,14 +111,14 @@ class SensorThread(StoppableThread):
 					track_logger.add_line("STOPPED", "errors")
 	                break
 
-			# ARDUINO COMMUNICATION TURNED ON
-		    sensor_communicator.signal_arduino()
+				# ARDUINO COMMUNICATION TURNED ON
+			    sensor_communicator.signal_arduino()
 
-		    sensor_communicator.check_airmar()
-		    ship_data.wind_heading = sensorThreadRunI / 3
+			    sensor_communicator.check_airmar()
+			    ship_data.wind_heading = sensorThreadRunI / 3
 
-		    if (sensorThreadRunI % 10 == 0):
-			    data_sender.send_update()
+			    if (sensorThreadRunI % 10 == 0):
+				    data_sender.send_update()
 
 		    except Exception, e:
 				eStr = "in Sensor Thread: " + str(e)
@@ -124,7 +129,11 @@ class SensorThread(StoppableThread):
 
 
 def check_waypoint_proximity():
-	""" Runs if waypoint is hit
+	""" Sets the ship target to be the next target.
+
+	Side effects:
+	- Prints to stdout
+	- Increments targetI in ship_data
 	"""
     if(within_radius_of_target()):
         ship_data.targetI += 1
@@ -136,6 +145,9 @@ def within_radius_of_target():
 	""" Checks to see if waypoint is hit.
 
 	This and check_waypoint_proximity should be merged, and should be with other navigation code.
+
+	Returns:
+	True if the ship is within the specified radius of the target, False otherwise
 	"""
     current_point = [ship_data.boat_lat, ship_data.boat_lon]
     target_point = ship_data.target_points[ship_data.targetI]
@@ -145,6 +157,9 @@ def within_radius_of_target():
 
 def start_SailBot():
 	""" Starts all the captain, helmsman, and sensor services.
+
+	Side effects:
+	- Prints to stdout
 	"""
 	global captain, helmsman, sensor_thread
 
@@ -177,38 +192,42 @@ def start_SailBot():
 # MAKE THE BOAT AUTONOMOUS
 #ship_data.auto = True
 
-print("STARTING SAILBOT")
-start_SailBot()
-
-
-try:
+if __name__ == "__main__":
 	""" Updates captain and helmsman services until interrupt is caught.
+
+	Side effects:
+	- Prints to stdout
 	"""
-	while(True):
-		try:
-	        if (debug_mode):
-				debug()
 
-			#check if the current waypoint is hit
-			check_waypoint_proximity()
+	print("STARTING SAILBOT")
+	start_SailBot()
 
-			if(ship_data.auto):
-				captain.think()
+	try:
+		while(True):
+			try:
+		        if (debug_mode):
+					debug()
 
-	        	helmsman.steer_boat()
+				# check if the current waypoint is hit
+				check_waypoint_proximity()
 
-			if (debug_mode):
-				track_logger.log()
+				if(ship_data.auto):
+					captain.think()
 
-			time.sleep(main_loop_delay)
-			timestep += 1
+		        	helmsman.steer_boat()
 
-		except Exception, e:
-			print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-			print(e)
-			traceback.print_exc()
+				if (debug_mode):
+					track_logger.log()
 
-except (KeyboardInterrupt), e:
-    print(str(e))
-    print("^C CAUGHT - MAIN LOOP ENDING")
-    sensor_thread.stop()
+				time.sleep(main_loop_delay)
+				timestep += 1
+
+			except Exception, e:
+				print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+				print(e)
+				traceback.print_exc()
+
+	except (KeyboardInterrupt), e:
+	    print(str(e))
+	    print("^C CAUGHT - MAIN LOOP ENDING")
+	    sensor_thread.stop()
