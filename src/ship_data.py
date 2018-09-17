@@ -47,7 +47,11 @@ current_desired_heading = None
 current_fastest_time_to_target = None
 
 def status_package():
-	package = {};
+	"""
+        Makes dictionary called package with status information on boat ... called by data_sender
+	"""
+        package = {};					
+        #may want to consider replacing with structured numpy array ... more versatile, faster operations ... drawback is need to use pickling before sending over socket
 	package["boat_lat"] = boat_lat
 	package["boat_lon"] = boat_lon
 	package["wind_heading"] = wind_heading
