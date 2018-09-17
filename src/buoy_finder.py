@@ -7,13 +7,14 @@ last_x = 0
 last_y = 0
 last_size = 10
 
+"""			commented out this section ... not valid python statements ... also var names are not consistent with rest of codebase
 SIZE_X = 
 SIZE_Y = 
 #angle from center to edge
 FOV_X = 
 FOV_Y = 
-
-#read camera
+"""
+#read camera		should there be something here? perhaps declaring 'keypoint' list
 
 #find largest red blob
 
@@ -25,6 +26,8 @@ for p in keypoints:
     print(p.pt)
     print(p.size)
 
+
+#put the following in a method
 if(len(keypoints) > 0):
 	biggest_blob_i = sizes.index(max(sizes))
 	center = keypoints[biggest_blob_i].pt
