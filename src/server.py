@@ -1,3 +1,7 @@
+"""
+Pretty sure this file isn't used
+"""
+
 import socket
 from random import *
 
@@ -35,24 +39,23 @@ while True:
         type = 3
     else:
         type = 4
-    
+
     outString = str(type) + ';' + str(curLat) + ';' + str(curLon)
 
     conn.sendall(outString)
-    
+
     try:
         inData = conn.recv(1024)
 
         if not inData: break
 
         print "got back: " + inData
-    
+
         # conn.sendall("got it")
-    
+
     except socket.error:
         print "Error Occured."
         break
 
 
 conn.close()
-
