@@ -1,3 +1,7 @@
+"""
+Provides an alternate entry point into main
+"""
+
 import time
 
 time.sleep(75)

@@ -8,6 +8,9 @@ airmar_reader.print_airmar_sentence_contents = True
 airmar_reader.setup()
 
 while(True):
+	"""
+	Tests the Airmar
+	"""
 	airmar_reader.read_airmar()
 
 	print("at: ")

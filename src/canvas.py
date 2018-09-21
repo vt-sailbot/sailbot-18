@@ -1,3 +1,7 @@
+"""
+Reads the Airmar three times, probably was used for testing
+"""
+
 import airmar_reader as ar
 import time
 
