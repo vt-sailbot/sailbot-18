@@ -7,6 +7,7 @@ import time
 import binascii
 import pynmea2
 import math
+#import numpy as np
 import os
 
 from helmsman import Helmsman
@@ -34,20 +35,34 @@ other_switch_times = []
 helmsman = None
 
 def setup(h):
+	"""
+	Runs setup methods for airmar and arduino from airmar_reader and arduino_signaler
+
+	Takes helsman module as argument, called by main 
+	""" 
 	global helmsman
 	helmsman = h
 	#os.system("echo BB-UART1 > /sys/devices/bone_capemgr.*/slots")
-	os.system("./open_airmar_port")
+	os.system("./open_airmar_port")		#deprecated... use subprocess module instead
 	airmar_reader.setup()
 
 ##ARDUINO COMMUNICATION CURRENTLY ON
 	arduino_signaler.setup()
 
 def average_in_new_wind_data(newWDir, newWS):
-	
-	newWDir *= 3.1415926535/180
+	"""
+	Sets wind_speed, wind_heading, and relative_wind_heading in the ship_data module
 
-	wDir = ship_data.wind_heading*3.14159265/180
+	Takes new wind direction and wind speed as arguments
+	
+	**** DUPLICATE OF FUNCTION IN airmar_reader.py ****
+
+	"""
+
+	
+	newWDir *= 3.1415926535/180			#np.pi/180
+
+	wDir = ship_data.wind_heading*3.14159265/180	#wDir = shipdata.wind_heading*(np.pi/180)
 	wS = ship_data.wind_speed
 
 	oldX = wS*math.sin(wDir)
@@ -63,12 +78,15 @@ def average_in_new_wind_data(newWDir, newWS):
 	s = math.sqrt(x*x + y*y)
 	heading = (math.atan2(x, y)*180/math.pi)%360
 
-	ship_data.wind_speed = s
+	ship_data.wind_speed = s		#why are you defining s separately?
 	ship_data.wind_heading = heading
 	ship_data.relative_wind_heading = (ship_data.wind_heading - ship_data.boat_heading)%360
 
 
 def signal_arduino():
+	"""
+	Reads rudder and winch angle from RC_inputs and determines if auto or other... Writes target and zero point for left and right rudder angle, winch angle
+	"""
 	global auto_switch_times
 	global other_switch_times
 	global left_rudder_zero_point
@@ -120,4 +138,7 @@ def signal_arduino():
 
 
 def check_airmar():
+	"""
+	Runs read_airmar method from airmar_reader module
+	"""
 	airmar_reader.read_airmar()
