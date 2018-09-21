@@ -3,19 +3,53 @@ from random import random
 from copy import deepcopy
 import time_estimator
 
+"""
+Probably should make these more clear or move them.
+"""
+
 eps = .000001
 dT = .00001
 
 maxSteps = 15
 
 def mag(x):
+    """
+    Method that returns the magnitude of the vector x
+
+    Keyword arguments:
+    x -- The vector.
+
+    Returns:
+    The magnitude.
+    """
     return(math.sqrt(sum([q*q for q in x])))
 
 def sub(a, b):
+    """
+    Returns the difference of the values at each index of a and b
+
+    Keyboard arguments:
+    a -- the first array
+    b -- the second array
+
+    Returns:
+    The difference of the arrays
+    """
     return([a[i] - b[i] for i in range(len(a))])
 
 #the derivatives of T at x in every direction; grad(T)
 def gradient(T, x):
+    """
+    Method to return an array with the derivatives of T
+    at the point x for all the variables in the nVars.
+
+    Keyword arguments:
+    T -- the method to be derived
+    x -- the point at which the funciton is evaluated.
+
+    Returns:
+    ds -- the derivative in an arrary.
+    """
     #take a baseline
     T0 = T(x)
 
@@ -46,6 +80,8 @@ def gradient(T, x):
     return(ds)
 
 def find1DMin(newT):
+    """
+    """
     global n_jumps
     phi = (1 + math.sqrt(5)) / 2
     # a  b c  d
@@ -96,6 +132,20 @@ def find1DMin(newT):
 #find a local minimum of T(x), starting at x0, descending until a minimum is reached
 #T is the function to minimize; x is a vector that is its input
 def minimizeFrom(T, x0):
+    """
+    Method that finds the local minium of T(x), starting at x0 and descending
+    until a minium is reached
+
+    Keyword arguments:
+    T -- the function to minimize
+    x0 -- the starting point
+
+    Returns:
+    The minium as a number
+
+    Side effects:
+    Acesses a few global variables
+    """
     nVars = len(x0)
 
     #print(str(nVars) + " variables")
@@ -136,6 +186,16 @@ def minimizeFrom(T, x0):
 
 
 def minimize(T, xAvg, xV, N, lastMinX=None):
+    """
+    Method to minimize a function with ...
+
+    Keyword arguments:
+    T -- function
+    xAvg --
+    xV --
+    N --
+    lastMinX --
+    """
     bestX = xAvg
     bestT = T(xAvg)
 
@@ -176,7 +236,7 @@ if(__name__ == '__main__'):
     a_s = 0
     lon_s = 0
     lat_s = 0
-    
+
     lon_e = -.1
     lat_e = 5
     a_e = 0
@@ -185,16 +245,14 @@ if(__name__ == '__main__'):
         lat = x[0]
         lon = x[1]
         return(time_estimator.total_time(lat_s, lon_s, a_s, lat, lon, lat_e, lon_e, wind_heading))
-    
-    
+
+
     dTotal = time_estimator.dist(lat_s, lon_s, lat_e, lon_e)/(111*1000.0)
-    
+
     wind_heading = 30
-    
+
     lastMin = [0, 0]
-    
+
     print(T([1, 2]))
-    
+
     print(minimize(T, [(lat_e + lat_s)/2, (lon_e + lon_s)/2], [dTotal/2, dTotal/2], 1, lastMinX=lastMin))
-
-
