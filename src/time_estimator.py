@@ -37,20 +37,6 @@ def angleFromNorth(lat1, lon1, lat2, lon2):
 def dist(y1, x1, y2, x2):
     """ Calculates distance using distance formula.
 
-        Keyword Arguments: 
-        x1 -- An x-coordinate
-        y1 -- A y-coordinate
-        x2 -- Another x-coordinate
-        y2 -- Another y-coordinate
-
-        Returns:
-        This function returns the distance between (x1, y1) and (x2, y2) as a double.
-
-        """
-
-def dist(y1, x1, y2, x2):
-    """ Calculates distance using distance formula.
-
 	Keyword Arguments: 
 	x1-- An x-coordinate
 	y1 -- A y-coordinate
@@ -61,9 +47,9 @@ def dist(y1, x1, y2, x2):
 	This function returns the distance between (x1, y1) and (x2, y2) as a double.
 
 	"""
-    #print(x1, y1, x2, y2)
+#   print(x1, y1, x2, y2)
     return(calc.distance([y1, x1], [y2, x2]))
-#    return(sqrt((x1 - x2)**2 + (y2 - y1)**2))
+#   return(sqrt((x1 - x2)**2 + (y2 - y1)**2))
 
 def speed(a_off_wind):
     """ 
