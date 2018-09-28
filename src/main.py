@@ -222,7 +222,7 @@ if __name__ == "__main__":
 				time.sleep(main_loop_delay)
 				timestep += 1
 
-			except Exceptiona as e:
+			except Exception as e:
 				print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 				print(e)
 				traceback.print_exc()
