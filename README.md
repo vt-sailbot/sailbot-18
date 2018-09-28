@@ -1,6 +1,7 @@
 # SailBOT
 
 [![GitHub license](https://img.shields.io/github/license/VT-SailBOT/sailbot.svg)]()
+[![Build status](https://travis-ci.com/vt-sailbot/sailbot-18.svg?branch=master)]()
 
 ## Introduction
 
