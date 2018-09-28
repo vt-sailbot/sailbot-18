@@ -1,1 +1,0 @@
-/usr/bin/c++   -Wall -pthread    CMakeFiles/server.dir/src/network_server.o CMakeFiles/server.dir/src/main.o CMakeFiles/server.dir/src/file_buffer.o  -o server -rdynamic 
