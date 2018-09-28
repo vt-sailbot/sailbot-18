@@ -1,5 +1,6 @@
 # Misc
 .DS_Store
+p3_6env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -91,12 +91,12 @@ def distance(point1, point2):
     Returns:
     A distance between the two points
     """
-    a = math.sin(math.radians(point1[0]))
-    b = math.sin(math.radians(point2[0]))
-    c = math.cos(math.radians(point1[0]))
-    d = math.cos(math.radians(point2[0]))
+    a = math.sin(math.radians(point1.lat))
+    b = math.sin(math.radians(point2.lat))
+    c = math.cos(math.radians(point1.lat))
+    d = math.cos(math.radians(point2.lat))
 
-    e = a * b + c * d * math.cos((math.radians(point2[1] - point1[1])))
+    e = a * b + c * d * math.cos((math.radians(point2.lon - point1.lon)))
     f = math.acos(e)
 
     return f * 6371 * 1000
