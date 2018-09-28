@@ -35,8 +35,8 @@ class Helmsman:
         """
         self.captain = cap
 
-    	self.target_rudder_angle = 0
-    	self.target_winch_angle = 60
+        self.target_rudder_angle = 0
+        self.target_winch_angle = 60
 
     def setup(self):
         """ This method does nothing.
@@ -69,11 +69,12 @@ class Helmsman:
         """
         current_heading = ship_data.boat_heading
         angle_to_turn = (target_heading - current_heading) % 360
+        
+        if(angle_to_turn > 180):
+            angle_to_turn -= 360
 
-    	if(angle_to_turn > 180):
-    		angle_to_turn -= 360
 
-    	self.target_rudder_angle = self.fit_into_range(angle_to_turn / 1.2, rudder_min, rudder_max)
+        self.target_rudder_angle = self.fit_into_range(angle_to_turn / 1.2, rudder_min, rudder_max)
 
     # turns the sail winch based on the current wind direction
     def setWinchAngleFromWind(self):
@@ -85,17 +86,17 @@ class Helmsman:
         Side effects:
         - Sets instance variables
         """
-    	relative_wind_angle = ship_data.relative_wind_heading
-    	if(relative_wind_angle > 180):
-    		relative_wind_angle = 360 - relative_wind_angle
+        relative_wind_angle = ship_data.relative_wind_heading
+        if(relative_wind_angle > 180):
+            relative_wind_angle = 360 - relative_wind_angle
             wind_angle_ratio = (relative_wind_angle - sail_in_wind_angle) * 1.0 / (sail_out_wind_angle - sail_in_wind_angle)
 
             if(wind_angle_ratio > 1):
-                wind_angle_ratio = 1
+                wind_angle_ratio = 1    
             if(wind_angle_ratio < 0):
                 wind_angle_ratio = 0
 
-        # update target winch angle
+        #update target winch angle
         self.target_winch_angle  = winch_min + (winch_max - winch_min) * wind_angle_ratio
 
 
@@ -115,8 +116,8 @@ class Helmsman:
 
         # Otherwise, blindly follow the RC input
         else:
-    		self.target_rudder_angle = ship_data.RC_rudder_angle
-	    	self.target_winch_angle = ship_data.RC_winch_angle
+            self.target_rudder_angle = ship_data.RC_rudder_angle
+            self.target_winch_angle = ship_data.RC_winch_angle
 
-    	ship_data.target_rudder_angle = self.target_rudder_angle
-    	ship_data.target_winch_angle = self.target_winch_angle
+        ship_data.target_rudder_angle = self.target_rudder_angle
+        ship_data.target_winch_angle = self.target_winch_angle

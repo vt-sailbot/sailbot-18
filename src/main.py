@@ -120,7 +120,7 @@ class SensorThread(StoppableThread):
 				if (sensorThreadRunI % 10 == 0):
 					data_sender.send_update()
 
-			except Exception, e:
+			except Exception as e:
 				eStr = "in Sensor Thread: " + str(e)
 				track_logger.add_line(eStr, "errors")
 				print(eStr)
@@ -222,12 +222,12 @@ if __name__ == "__main__":
 				time.sleep(main_loop_delay)
 				timestep += 1
 
-			except Exception, e:
+			except Exceptiona as e:
 				print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 				print(e)
 				traceback.print_exc()
 
-	except (KeyboardInterrupt), e:
+	except (KeyboardInterrupt) as  e:
 		print(str(e))
 		print("^C CAUGHT - MAIN LOOP ENDING")
 		sensor_thread.stop()

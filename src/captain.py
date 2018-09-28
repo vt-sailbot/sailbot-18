@@ -96,24 +96,24 @@ class Captain:
             lastMinX=self.current_fastest_midpoint)
 
     	#if it's better just to go through the midpoint, do it
-    	if(T([(lat_s + lat_e)/2, (lon_s + lon_e)/2]) < T(self.current_fastest_midpoint)):
-    		self.current_fastest_midpoint = [(lat_s + lat_e)/2, (lon_s + lon_e)/2]
+        if(T([(lat_s + lat_e)/2, (lon_s + lon_e)/2]) < T(self.current_fastest_midpoint)):
+            self.current_fastest_midpoint = [(lat_s + lat_e)/2, (lon_s + lon_e)/2]
 
-    	self.current_desired_heading = calc.direction_to_point([ship_data.boat_lat, ship_data.boat_lon], self.current_fastest_midpoint)
+        self.current_desired_heading = calc.direction_to_point([ship_data.boat_lat, ship_data.boat_lon], self.current_fastest_midpoint)
 
-    	ship_data.current_fastest_midpoint = self.current_fastest_midpoint
-    	ship_data.current_desired_heading = self.current_desired_heading
-    	ship_data.current_fastest_time_to_target = T(self.current_fastest_midpoint)
+        ship_data.current_fastest_midpoint = self.current_fastest_midpoint
+        ship_data.current_desired_heading = self.current_desired_heading
+        ship_data.current_fastest_time_to_target = T(self.current_fastest_midpoint)
 
-        #    print(self.current_fastest_midpoint)
+#       print(self.current_fastest_midpoint)
 
 
-#        print(minimizer.minimize(T, [(lat_e + lat_s)/2, (lon_e + lon_s)/2], [dTotal/2, dTotal/2], 1, lastMinX=self.current_fastest_midpoint)
+#       print(minimizer.minimize(T, [(lat_e + lat_s)/2, (lon_e + lon_s)/2], [dTotal/2, dTotal/2], 1, lastMinX=self.current_fastest_midpoint)
 #	print(self.current_fastest_midpoint)
 
 if(__name__ == '__main__'):
     """ For testing purposes.
     """
-	c = Captain()
-	for i in range(10):
-		c.think()
+    c = Captain()
+    for i in range(10):
+    	c.think()

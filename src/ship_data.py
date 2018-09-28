@@ -47,23 +47,30 @@ current_desired_heading = None
 current_fastest_time_to_target = None
 
 def status_package():
-	"""
-		Makes dictionary called package with status information on boat ... called by data_sender
-	"""
-	package = {};
-		#may want to consider replacing with structured numpy array ... more versatile, faster operations ... drawback is need to use pickling before sending over socket
-	package["boat_lat"] = boat_lat
-	package["boat_lon"] = boat_lon
-	package["wind_heading"] = wind_heading
-	package["wind_speed"] = wind_speed
-	package["boat_heading"] = boat_heading
-	package["boat_speed"] = boat_speed
-	package["RC_rudder_angle"] = RC_rudder_angle
-	package["RC_winch_angle"] = RC_winch_angle
-	package["rudder_angle"] = target_rudder_angle
-	package["winch_angle"] = target_winch_angle
-	package["target_waypoint"] = target_points[targetI]
-	package["current_fastest_midpoint"] = current_fastest_midpoint
-	package["current_desired_heading"] = current_desired_heading
-	package["current_fastest_time_to_target"] = current_fastest_time_to_target
-	return(package)
+        """
+        Makes dictionary called package with status information on boat ... called by data_sender
+	
+        KWargs:
+        n/a
+
+        Returns:
+        Dictionary 'package' of ship data
+
+        """
+        package = {};   	#may want to consider replacing with structured numpy array ... more versatile, faster operations ... drawback is need to use pickling before sending over socket
+
+        package["boat_lat"] = boat_lat
+        package["boat_lon"] = boat_lon
+        package["wind_heading"] = wind_heading
+        package["wind_speed"] = wind_speed
+        package["boat_heading"] = boat_heading
+        package["boat_speed"] = boat_speed
+        package["RC_rudder_angle"] = RC_rudder_angle
+        package["RC_winch_angle"] = RC_winch_angle
+        package["rudder_angle"] = target_rudder_angle
+        package["winch_angle"] = target_winch_angle
+        package["target_waypoint"] = target_points[targetI]
+        package["current_fastest_midpoint"] = current_fastest_midpoint
+        package["current_desired_heading"] = current_desired_heading
+        package["current_fastest_time_to_target"] = current_fastest_time_to_target
+        return(package)
