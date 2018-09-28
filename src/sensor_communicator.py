@@ -38,8 +38,15 @@ def setup(h):
 	"""
 	Runs setup methods for airmar and arduino from airmar_reader and arduino_signaler
 
-	Takes helsman module as argument, called by main 
-	""" 
+        KWargs:
+        h -- helmsman module 
+	
+        Returns:
+        n/a
+    
+        Side effects:
+        Runs setup methods on airmar_reader and arduino_signaler
+        """ 
 	global helmsman
 	helmsman = h
 	#os.system("echo BB-UART1 > /sys/devices/bone_capemgr.*/slots")
@@ -53,9 +60,17 @@ def average_in_new_wind_data(newWDir, newWS):
 	"""
 	Sets wind_speed, wind_heading, and relative_wind_heading in the ship_data module
 
-	Takes new wind direction and wind speed as arguments
+        KWargs:
+        newWDir -- new wind direction
+        newWS -- new wind speed
+
+        Returns:
+        n/a
+
+        Side effects:
+        Changes wind_speed, wind_heading, and relative_wind_heading values in ship_data module
 	
-	**** DUPLICATE OF FUNCTION IN airmar_reader.py ****
+        **** DUPLICATE OF FUNCTION IN airmar_reader.py ****
 
 	"""
 

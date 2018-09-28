@@ -18,6 +18,19 @@ server_addresses = [('192.168.0.100', 10101), ('192.168.0.101', 10101), ('192.16
 def send_update():
     """
     Get status package containing boat status information from ship_data module... Set status vars in ship_data and call status package to receive dictionary... sends status package message to all server addresses defined by 'server_addresses' list 
+    
+    KWargs:
+    n/a
+
+    Reutrns:
+    This function does not return any value
+
+    Side Effects:
+    Sends message to all addresses on server address list
+
+    Dependent on:
+    ship_data.py
+
     """
     message = str(ship_data.status_package())
 
