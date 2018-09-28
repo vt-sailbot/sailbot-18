@@ -11,6 +11,12 @@ print_sent_signals = False
 print_received_signals = True
 
 def setup():
+	"""
+	Sets up the arduino_port
+
+	Side effects:
+	-defines the arduino_port and opens it
+	"""
 	global arduino_port
 	                                       #???????
 	arduino_port = serial.Serial( port="/dev/ttyACM0",
@@ -20,15 +26,31 @@ def setup():
 	arduino_port.open()
 
 def clean(str):
+	"""
+	Goes through the string and ensures that every char is a known character.
+
+	Keyword arguments:
+	str -- the string to be cleaned up.
+
+	Returns:
+	This function returns a clean String with bad characters removed
+	"""
 	outStr = ""
 	for i in range(len(str)):
 		if(str[i] in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@$%^&*()_+-=`~{}[]\|;:\'\\,./<>?\"\#"):
 			outStr += str[i]
-	
+
 	return(outStr)
 
 #read in PWM values
 def read_arduino():
+	"""
+	Reads in the PWM values and if they are new it returns the new array,
+	otherwise it returns the old array.
+
+	Returns:
+	An array with new or old inputs
+	"""
 	global cur_input, old_RC_inputs
 
 #	print("reading " + str(arduino_port.inWaiting()))
@@ -43,11 +65,11 @@ def read_arduino():
 
 		if(c != '\n'):
 			cur_input += c
-		else:	
+		else:
 #			print(cur_input)
 			values = clean(cur_input).split(';')
 			values = [v for v in values if len(v) > 0]
-			
+
 			#if there are all 4 RC inputs
 			if(len(values) == 4):
 				#rudder, sail, auto_switch, other_switch
@@ -65,7 +87,7 @@ def read_arduino():
 
 		if(print_received_signals):
 				print("changing RC inputs to " + str(RC_inputs))
-		
+
 		return RC_inputs
 
 	#otherwise just return the old ones
@@ -74,6 +96,17 @@ def read_arduino():
 
 #send Arduino desired angles, offset so correct
 def write_arduino(left_rudder_angle, right_rudder_angle, sail_winch_angle):
+	"""
+	Funtion to write values to the Arduino
+
+	Keyword arguments:
+	left_rudder_angle -- integer with angle of left rudder
+	right_rudder_angle -- integer with angle of right rudder
+	sail_winch_angle -- integer with angle of winch
+
+	Side effects:
+	writes the message to the arduino_port.
+	"""
 	#ADD 90 TO ANGLES SO THEY FIT INTO BYTES
 	lR = int(round(left_rudder_angle)) + 90
 	rR = int(round(right_rudder_angle)) + 90
@@ -96,7 +129,13 @@ def write_arduino(left_rudder_angle, right_rudder_angle, sail_winch_angle):
 
 
 if(__name__ == '__main__'):
+	"""
+	Things to run if imported to main.
+	Runs setup and then writes to arduino_port and repeteats with a delay of 1.
 
+	Side effects:
+	-Calls setup, write_arduino
+	"""
 	setup()
 	arduino_port.read(arduino_port.inWaiting())
 
@@ -109,6 +148,6 @@ if(__name__ == '__main__'):
 
 		input = arduino_port.read(arduino_port.inWaiting())
 		print("\n" + str(input))
-		
+
 		i += 1
 		time.sleep(1)
